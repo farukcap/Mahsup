@@ -2,200 +2,239 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>EsnafAğı | Dijital Mahsuplaşma Platformu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EsnafAğı | Canlı Mutabakat Simülasyonu</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-        body { background-color: #f8fafc; color: #1e293b; padding: 16px; line-height: 1.5; }
-        
-        .app-container { max-width: 480px; margin: 0 auto; background: #ffffff; border-radius: 24px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05); padding: 24px; overflow: hidden; }
-        
-        .header { text-align: center; margin-bottom: 24px; }
-        .header .badge { background: #dbeafe; color: #1e40af; font-size: 11px; font-weight: 600; padding: 4px 12px; border-radius: 9999px; display: inline-block; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
-        .header h1 { font-size: 24px; font-weight: 700; color: #0f172a; letter-spacing: -0.02em; }
-        .header p { color: #64748b; font-size: 14px; margin-top: 4px; }
-        
-        .card { background: #f1f5f9; border-radius: 16px; padding: 16px; margin-bottom: 20px; border: 1px solid #e2e8f0; }
-        .card-title { font-size: 14px; font-weight: 600; color: #334155; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
-        
+        body { background-color: #f1f5f9; color: #1e293b; padding: 20px; }
+        .app-container { max-width: 480px; margin: 0 auto; background: #ffffff; border-radius: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); padding: 24px; }
+        .header { text-align: center; margin-bottom: 20px; }
+        .header h1 { font-size: 22px; font-weight: 700; color: #0f172a; }
+        .card { background: #f8fafc; border-radius: 16px; padding: 16px; margin-bottom: 16px; border: 1px solid #e2e8f0; }
+        .card-title { font-size: 14px; font-weight: 600; color: #334155; margin-bottom: 12px; }
         .form-group { margin-bottom: 12px; }
-        .form-group label { display: block; font-size: 12px; font-weight: 500; color: #475569; margin-bottom: 4px; }
-        .input-field { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 14px; transition: all 0.2s; background: #ffffff; }
-        .input-field:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15); }
-        
-        .btn { width: 100%; padding: 14px; border: none; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; justify-content: center; align-items: center; gap: 8px; }
-        .btn-primary { background: #2563eb; color: #ffffff; }
-        .btn-primary:hover { background: #1d4ed8; }
-        .btn-success { background: #10b981; color: #ffffff; margin-top: 10px; }
-        .btn-success:hover { background: #059669; }
-        
-        .data-list { max-height: 180px; overflow-y: auto; margin-bottom: 20px; }
-        .data-item { background: #ffffff; padding: 10px 12px; border-radius: 10px; margin-bottom: 6px; border: 1px solid #e2e8f0; font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
-        .data-item span.amount { font-weight: 600; color: #ef4444; }
-
-        /* Sonuç Paneli CSS Altyapısı */
-        .result-panel { display: none; margin-top: 24px; border-top: 2px dashed #e2e8f0; padding-top: 24px; }
-        .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
-        .metric-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; text-align: center; }
-        .metric-box .label { font-size: 11px; color: #64748b; text-transform: uppercase; font-weight: 500; }
-        .metric-box .val { font-size: 16px; font-weight: 700; margin-top: 2px; }
-        
-        .res-block { background: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0; padding: 12px; margin-bottom: 12px; }
-        .res-block h4 { font-size: 13px; font-weight: 600; margin-bottom: 8px; color: #1e293b; display: flex; align-items: center; gap: 4px; }
-        .res-item { font-size: 13px; padding: 6px 0; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; }
-        .res-item:last-child { border: none; }
-        
-        .badge-plus { background: #e6f4ea; color: #137333; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600; }
-        .badge-minus { background: #fce8e6; color: #c5221f; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+        .form-group label { display: block; font-size: 12px; font-weight: 500; margin-bottom: 4px; color: #475569; }
+        .input-field { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 14px; }
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .btn-primary { background: #2563eb; color: white; }
+        .btn-success { background: #10b981; color: white; }
+        .notification-badge { background: #fef3c7; border: 1px solid #f59e0b; color: #b45309; padding: 10px; border-radius: 10px; margin-bottom: 12px; font-size: 13px; }
+        #authSection, #smsSection, #mainApp { display: none; }
+        .active { display: block !important; }
+        .flex-group { display: flex; gap: 8px; }
     </style>
 </head>
 <body>
 
 <div class="app-container">
     <div class="header">
-        <span class="badge">Teknofest Fintech 2026</span>
-        <h1>EsnafAğı</h1>
-        <p>Yapay Zeka Destekli Likidite ve Borç Optimizasyonu</p>
+        <h1>🏆 EsnafAğı</h1>
+        <p style="font-size: 12px; color: #64748b;">P2P Güvenli Borç Doğrulama Arayüzü</p>
     </div>
 
-    <div class="card">
-        <div class="card-title">📝 Borç İlişkisi Kayıt Ekranı</div>
-        <div class="form-group">
-            <label>Borçlu (İsim Soyisim / Unvan)</label>
-            <input type="text" id="borclu" class="input-field" placeholder="Örn: Ahmet Yılmaz (Keresteci)">
-        </div>
-        <div class="form-group">
-            <label>Alacaklı (İsim Soyisim / Unvan)</label>
-            <input type="text" id="alacakli" class="input-field" placeholder="Örn: Mehmet Demir (Mobilyacı)">
-        </div>
-        <div class="form-group">
-            <label>Borç Tutarı (TL)</label>
-            <input type="number" id="miktar" class="input-field" placeholder="Örn: 75000">
-        </div>
-        <button class="btn btn-primary" onclick="havuzaEkle()">➕ Havuza Borç Ekle</button>
-    </div>
-
-    <h3 style="font-size: 14px; margin-bottom: 8px; font-weight: 600; color: #475569;">Sisteme Girilen Ham Veriler</h3>
-    <div class="data-list" id="hamListe">
-        <div style="text-align: center; color: #94a3b8; font-size: 13px; padding: 20px;">Henüz finansal veri girişi yapılmadı.</div>
-    </div>
-
-    <button class="btn btn-success" onclick="analizEt()">🚀 Algoritmayı Çalıştır</button>
-
-    <div class="result-panel" id="resultPanel">
-        <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 16px; color: #0f172a;">📊 Konsolide Analiz Raporu</h3>
-        
-        <div class="metrics-grid">
-            <div class="metric-box">
-                <div class="label">Piyasa Brüt Yükü</div>
-                <div class="val" id="mBrut" style="color: #64748b;">0 TL</div>
+    <!-- SİMÜLASYON ADIM 1: GİRİŞ EKRANI -->
+    <div id="authSection" class="active">
+        <div class="card">
+            <div class="card-title">🔐 Güvenli Kimlik Doğrulama (e-Devlet / Banka Girişi)</div>
+            <div class="form-group">
+                <label>İsim Soyisim</label>
+                <input type="text" id="loginIsim" class="input-field" placeholder="Örn: Ahmet Yılmaz">
             </div>
-            <div class="metric-box" style="background: #ecfdf5; border-color: #a7f3d0;">
-                <div class="label" style="color: #065f46;">Mahsup Edilen / Silinen</div>
-                <div class="val" id="mSilinen" style="color: #047857;">0 TL</div>
+            <div class="form-group">
+                <label>T.C. Kimlik / Vergi No (Benzersiz ID)</label>
+                <input type="number" id="loginTC" class="input-field" placeholder="Örn: 11111111111">
+            </div>
+            <div class="form-group">
+                <label>Telefon Numarası</label>
+                <input type="tel" id="loginTel" class="input-field" placeholder="0555 XXXXXXX">
+            </div>
+            <button class="btn btn-primary" onclick="smsKodYolla()">🚀 SMS Kodu Gönder</button>
+        </div>
+    </div>
+
+    <!-- SİMÜLASYON ADIM 2: SMS ONAY PENCERESİ -->
+    <div id="smsSection">
+        <div class="card">
+            <div class="card-title">💬 SMS Onay Kodu</div>
+            <p style="font-size: 13px; margin-bottom: 10px; color: #64748b;">Telefonunuza gelen 4 haneli kodu giriniz.</p>
+            <div class="form-group">
+                <input type="text" id="smsKod" class="input-field" placeholder="Test için 1234 yazın">
+            </div>
+            <button class="btn btn-success" onclick="dogrulaVeGirisYap()">✅ Doğrula ve Giriş Yap</button>
+        </div>
+    </div>
+
+    <!-- SİMÜLASYON ADIM 3: ANA PLATFORM EKRANI -->
+    <div id="mainApp">
+        <div style="background: #e0f2fe; padding: 10px; border-radius: 10px; font-size: 13px; margin-bottom: 16px; font-weight: 500;">
+            👤 Aktif Kullanıcı: <span id="userBadge" style="color: #0369a1;">-</span>
+        </div>
+
+        <!-- GELEN BİLDİRİMLER PANELİ (DİNAMİK) -->
+        <div id="bildirimAlani"></div>
+
+        <!-- BEYAN GÖNDERME FORMU -->
+        <div class="card">
+            <div class="card-title">💸 Yeni Borç / Alacak Beyanı Oluştur</div>
+            <div class="form-group">
+                <label>Karşı Tarafın T.C. / Vergi Nosu</label>
+                <input type="number" id="karsiTC" class="input-field" placeholder="Diğer sekmedeki TC'yi girin">
+            </div>
+            <div class="form-group">
+                <label>Karşı Tarafın İsim Soyisimi</label>
+                <input type="text" id="karsiIsim" class="input-field" placeholder="Örn: Mehmet Demir">
+            </div>
+            <div class="form-group">
+                <label>Tutar (TL)</label>
+                <input type="number" id="beyanMiktar" class="input-field" placeholder="Örn: 25000">
+            </div>
+            <div class="flex-group">
+                <button class="btn btn-primary" style="background:#dc2626;" onclick="beyanGonder('borcluyum')">Borçluyum</button>
+                <button class="btn btn-primary" style="background:#16a34a;" onclick="beyanGonder('alacakliyim')">Alacaklıyım</button>
             </div>
         </div>
 
-        <div class="res-block" id="blockDongu">
-            <h4 style="color: #b45309;">🔄 Keşfedilen Kilitli Borç Zincirleri</h4>
-            <div id="donguIcerik" style="font-size: 12px; color: #475569; padding: 4px 0;"></div>
+        <!-- KESİNLEŞEN HAVUZ VE ALGORİTMA -->
+        <div class="card" style="background:#f0fdf4; border-color:#bbf7d0;">
+            <div class="card-title" style="color:#166534;">📦 Karşılıklı Onaylanan Borç Havuzu</div>
+            <div id="onayliListe" style="font-size: 12px; max-height: 100px; overflow-y:auto; margin-bottom: 10px;">Henüz onaylı borç yok.</div>
+            <button class="btn btn-success" style="background:#15803d;" onclick="algoritmayiTetikle()">🚀 Merkez Algoritmayı Çalıştır</button>
         </div>
 
-        <div class="res-block">
-            <h4 style="color: #2563eb;">💼 Net Finansal Durum (Arta Kalan Hesap Bakiyeleri)</h4>
-            <div id="ozetIcerik"></div>
-        </div>
-
-        <div class="res-block" style="border-color: #10b981; background: #f0fdf4;">
-            <h4 style="color: #065f46;">🎯 Nihai Temiz Ödeme Planı (Net Ödenmesi Gereken)</h4>
-            <div id="odemeIcerik" style="font-weight: 500;"></div>
+        <!-- RAPOR ÇIKTISI -->
+        <div id="simuRapor" class="card" style="display:none; background:#fafafa;">
+            <div class="card-title">📊 Konsolide Optimizasyon Sonucu</div>
+            <div id="raporIcerik" style="font-size: 13px; white-space: pre-line;"></div>
         </div>
     </div>
 </div>
 
 <script>
-    let globalBorcHavuzu = [];
+    let KULLANICI = null;
 
-    function havuzaEkle() {
-        const borclu = document.getElementById('borclu').value.trim();
-        const alacakli = document.getElementById('alacakli').value.trim();
-        const miktar = document.getElementById('miktar').value.trim();
+    function smsKodYolla() {
+        const isim = document.getElementById('loginIsim').value;
+        const tc = document.getElementById('loginTC').value;
+        const tel = document.getElementById('loginTel').value;
+        if(!isim || !tc || !tel) { alert("Tüm alanları doldurun!"); return; }
 
-        if(!borclu || !alacakli || !miktar) { alert("Lütfen tüm kurumsal alanları doldurunuz."); return; }
-        if(borclu === alacakli) { alert("Bir kişi kendi kendisine borçlu olamaz."); return; }
-
-        globalBorcHavuzu.push({ borclu, alacakli, miktar });
-        
-        const listeDiv = document.getElementById('hamListe');
-        if(globalBorcHavuzu.length === 1) listeDiv.innerHTML = "";
-        
-        listeDiv.innerHTML += `
-            <div class="data-item">
-                <div><b>${borclu}</b> ➔ ${alacakli}</div>
-                <span class="amount">${parseFloat(miktar).toLocaleString('tr-TR')} TL</span>
-            </div>
-        `;
-        
-        document.getElementById('borclu').value = "";
-        document.getElementById('alacakli').value = "";
-        document.getElementById('miktar').value = "";
+        fetch('/api/auth/sms-gonder', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({tc, tel})
+        }).then(() => {
+            document.getElementById('authSection').classList.remove('active');
+            document.getElementById('smsSection').classList.add('active');
+        });
     }
 
-    function analizEt() {
-        if(globalBorcHavuzu.length === 0) { alert("Analiz için sistem havuzunda borç kaydı bulunmalıdır."); return; }
+    function dogrulaVeGirisYap() {
+        const isim = document.getElementById('loginIsim').value;
+        const tc = document.getElementById('loginTC').value;
+        const tel = document.getElementById('loginTel').value;
+        const kod = document.getElementById('smsKod').value;
 
-        fetch('/hesapla', {
+        fetch('/api/auth/login', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ borclar: globalBorcHavuzu })
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({tc, tel, isim, kod})
         })
         .then(res => res.json())
         .then(data => {
-            if(data.hata) { alert("Hata: " + data.hata); return; }
-
-            document.getElementById('resultPanel').style.display = "block";
-            
-            // Üst göstergeler
-            document.getElementById('mBrut').innerText = data.analiz.toplam_brut.toLocaleString('tr-TR') + " TL";
-            document.getElementById('mSilinen').innerText = data.analiz.silinen_hacim.toLocaleString('tr-TR') + " TL";
-
-            // Döngü Yapıları
-            const dDiv = document.getElementById('donguIcerik');
-            if(data.donguler.length === 0) {
-                document.getElementById('blockDongu').style.display = "none";
+            if(data.success) {
+                KULLANICI = data.kullanici;
+                document.getElementById('smsSection').classList.remove('active');
+                document.getElementById('mainApp').classList.add('active');
+                document.getElementById('userBadge').innerText = `${KULLANICI.isim} (TC: ${KULLANICI.tc})`;
+                // Gerçek zamanlı dinleme döngüsünü başlat (Her 2 saniyede bir verileri kontrol et)
+                setInterval(verileriGuncelle, 2000);
             } else {
-                document.getElementById('blockDongu').style.display = "block";
-                dDiv.innerHTML = data.donguler.map(z => `<div style="margin-bottom:6px; padding:4px; background:#fef3c7; border-radius:6px;">• ${z}</div>`).join('');
+                alert(data.hata);
             }
+        });
+    }
 
-            // Arta Kalan Durum Analizi
-            const oDiv = document.getElementById('ozetIcerik');
-            oDiv.innerHTML = data.genel_ozet.map(o => `
-                <div class="res-item">
-                    <span>${o.isim}</span>
-                    <span class="${o.bakiye >= 0 ? 'badge-plus' : 'badge-minus'}">${o.bakiye >= 0 ? '+' : ''}${o.bakiye.toLocaleString('tr-TR')} TL</span>
-                </div>
-            `).join('');
+    function beyanGonder(tip) {
+        const karsi_tc = document.getElementById('karsiTC').value;
+        const karsi_isim = document.getElementById('karsiIsim').value;
+        const miktar = document.getElementById('beyanMiktar').value;
+        if(!karsi_tc || !karsi_isim || !miktar) { alert("Lütfen form alanlarını doldurunuz."); return; }
 
-            // Ödeme Planı
-            const odDiv = document.getElementById('odemeIcerik');
-            if(data.net_odemeler.length === 0) {
-                odDiv.innerHTML = "<div style='color:#047857; text-align:center; padding:10px;'>Tüm piyasa mükemmel şekilde temizlendi, nakit transferine gerek kalmadı!</div>";
-            } else {
-                odDiv.innerHTML = data.net_odemeler.map(n => `
-                    <div class="res-item" style="color: #065f46;">
-                        <span><b>${n.gonderen}</b>, ${n.alan}'a ödeyecek:</span>
-                        <span style="font-weight:700;">${n.miktar.toLocaleString('tr-TR')} TL</span>
-                    </div>
-                `).join('');
+        fetch('/api/beyan/gonder', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({gonderen_tc: KULLANICI.tc, karsi_tc, karsi_isim, miktar, tip})
+        })
+        .then(res => res.json())
+        .then(data => {
+            alert(data.mesaj);
+            document.getElementById('karsiTC').value = "";
+            document.getElementById('karsiIsim').value = "";
+            document.getElementById('beyanMiktar').value = "";
+        });
+    }
+
+    function verileriGuncelle() {
+        if(!KULLANICI) return;
+        fetch(`/api/beyan/listele/${KULLANICI.tc}`)
+        .then(res => res.json())
+        .then(data => {
+            // 1. Bildirimleri Bas
+            const bAlani = document.getElementById('bildirimAlani');
+            bAlani.innerHTML = "";
+            data.gelen_beyanlar.forEach(b => {
+                // Eğer kullanıcı borçlu olan tarafsa onay istiyoruz
+                if (b.borclu_tc === KULLANICI.tc) {
+                    bAlani.innerHTML += `
+                        <div class="notification-badge">
+                            ⚠️ <b>${b.alacakli_isim}</b> sizden <b>${b.miktar} TL</b> alacaklı olduğunu beyan etti. Onaylıyor musunuz?
+                            <button class="btn btn-success" style="padding:4px 8px; font-size:11px; margin-top:6px;" onclick="beyanOnayla(${b.id})">Evet, Onaylıyorum</button>
+                        </div>
+                    `;
+                } else {
+                    bAlani.innerHTML += `
+                        <div class="notification-badge" style="background:#e0f2fe; border-color:#0284c7; color:#0369a1;">
+                            ⏳ <b>${b.borclu_isim}</b> isimli kişiye yaptığınız <b>${b.miktar} TL</b> değerindeki borç beyanınız için karşı tarafın onayı bekleniyor...
+                        </div>
+                    `;
+                }
+            });
+
+            // 2. Onaylanan Havuzu Güncelle
+            const oListe = document.getElementById('onayliListe');
+            if(data.onaylanan_havuz.length > 0) {
+                oListe.innerHTML = data.onaylanan_havuz.map(b => `• <b>${b.borclu}</b> ➔ <b>${b.alacakli}</b>: ${b.miktar} TL (Onaylandı)<br>`).join('');
             }
+        });
+    }
+
+    function beyanOnayla(id) {
+        fetch('/api/beyan/onayla', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({id})
+        }).then(() => verileriGuncelle());
+    }
+
+    function algoritmayiTetikle() {
+        fetch('/api/algoritma/calistir')
+        .then(res => res.json())
+        .then(data => {
+            if(data.hata) { alert(data.hata); return; }
+            const panel = document.getElementById('simuRapor');
+            const icerik = document.getElementById('raporIcerik');
+            panel.style.display = "block";
             
-            // Mobil ekranı otomatik aşağı kaydır
-            document.getElementById('resultPanel').scrollIntoView({ behavior: 'smooth' });
+            let txt = `<b>🔄 Tespit Edilen Kilitli Döngüler:</b>\n`;
+            txt += data.donguler.length ? data.donguler.map(d => "• " + d).join('\n') : "Hiç döngü bulunamadı.\n";
+            
+            txt += `\n<b>🎯 Nihai Net Ödeme Planı:</b>\n`;
+            txt += data.net_odemeler.length ? data.net_odemeler.map(n => `• ${n.gonderen}, ${n.alan}'a net <b>${n.miktar} TL</b> ödeyecek.`).join('\n') : "Herkes dengelendi, kimsenin kimseye ödeme yapmasına gerek kalmadı!\n";
+            
+            icerik.innerHTML = txt;
         });
     }
 </script>
-
 </body>
 </html>
