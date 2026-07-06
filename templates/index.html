@@ -3,238 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EsnafAğı | Canlı Mutabakat Simülasyonu</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Kripto Mum Formasyon Tarayıcı</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-        body { background-color: #f1f5f9; color: #1e293b; padding: 20px; }
-        .app-container { max-width: 480px; margin: 0 auto; background: #ffffff; border-radius: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); padding: 24px; }
-        .header { text-align: center; margin-bottom: 20px; }
-        .header h1 { font-size: 22px; font-weight: 700; color: #0f172a; }
-        .card { background: #f8fafc; border-radius: 16px; padding: 16px; margin-bottom: 16px; border: 1px solid #e2e8f0; }
-        .card-title { font-size: 14px; font-weight: 600; color: #334155; margin-bottom: 12px; }
-        .form-group { margin-bottom: 12px; }
-        .form-group label { display: block; font-size: 12px; font-weight: 500; margin-bottom: 4px; color: #475569; }
-        .input-field { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 14px; }
-        .btn { width: 100%; padding: 12px; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; }
-        .btn-primary { background: #2563eb; color: white; }
-        .btn-success { background: #10b981; color: white; }
-        .notification-badge { background: #fef3c7; border: 1px solid #f59e0b; color: #b45309; padding: 10px; border-radius: 10px; margin-bottom: 12px; font-size: 13px; }
-        #authSection, #smsSection, #mainApp { display: none; }
-        .active { display: block !important; }
-        .flex-group { display: flex; gap: 8px; }
+        body { background-color: #121214; color: #e4e6eb; }
+        .card { background-color: #1e1e24; border: 1px solid #2d2d35; color: #fff; }
+        .badge-bullish { background-color: #26a69a; }
+        .badge-bearish { background-color: #ef5350; }
+        .status-confirmed { color: #26a69a; font-weight: bold; }
+        .status-fail { color: #ef5350; font-weight: bold; }
+        .status-not { color: #ffb300; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div class="app-container">
-    <div class="header">
-        <h1>🏆 EsnafAğı</h1>
-        <p style="font-size: 12px; color: #64748b;">P2P Güvenli Borç Doğrulama Arayüzü</p>
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold text-warning">Crypto Pattern AI Predictor</h1>
+        <p class="text-muted">Matriks Mum Formasyon Yaşam Döngüsü Analiz Algoritması</p>
     </div>
 
-    <!-- SİMÜLASYON ADIM 1: GİRİŞ EKRANI -->
-    <div id="authSection" class="active">
-        <div class="card">
-            <div class="card-title">🔐 Güvenli Kimlik Doğrulama (e-Devlet / Banka Girişi)</div>
-            <div class="form-group">
-                <label>İsim Soyisim</label>
-                <input type="text" id="loginIsim" class="input-field" placeholder="Örn: Ahmet Yılmaz">
-            </div>
-            <div class="form-group">
-                <label>T.C. Kimlik / Vergi No (Benzersiz ID)</label>
-                <input type="number" id="loginTC" class="input-field" placeholder="Örn: 11111111111">
-            </div>
-            <div class="form-group">
-                <label>Telefon Numarası</label>
-                <input type="tel" id="loginTel" class="input-field" placeholder="0555 XXXXXXX">
-            </div>
-            <button class="btn btn-primary" onclick="smsKodYolla()">🚀 SMS Kodu Gönder</button>
-        </div>
-    </div>
-
-    <!-- SİMÜLASYON ADIM 2: SMS ONAY PENCERESİ -->
-    <div id="smsSection">
-        <div class="card">
-            <div class="card-title">💬 SMS Onay Kodu</div>
-            <p style="font-size: 13px; margin-bottom: 10px; color: #64748b;">Telefonunuza gelen 4 haneli kodu giriniz.</p>
-            <div class="form-group">
-                <input type="text" id="smsKod" class="input-field" placeholder="Test için 1234 yazın">
-            </div>
-            <button class="btn btn-success" onclick="dogrulaVeGirisYap()">✅ Doğrula ve Giriş Yap</button>
-        </div>
-    </div>
-
-    <!-- SİMÜLASYON ADIM 3: ANA PLATFORM EKRANI -->
-    <div id="mainApp">
-        <div style="background: #e0f2fe; padding: 10px; border-radius: 10px; font-size: 13px; margin-bottom: 16px; font-weight: 500;">
-            👤 Aktif Kullanıcı: <span id="userBadge" style="color: #0369a1;">-</span>
-        </div>
-
-        <!-- GELEN BİLDİRİMLER PANELİ (DİNAMİK) -->
-        <div id="bildirimAlani"></div>
-
-        <!-- BEYAN GÖNDERME FORMU -->
-        <div class="card">
-            <div class="card-title">💸 Yeni Borç / Alacak Beyanı Oluştur</div>
-            <div class="form-group">
-                <label>Karşı Tarafın T.C. / Vergi Nosu</label>
-                <input type="number" id="karsiTC" class="input-field" placeholder="Diğer sekmedeki TC'yi girin">
-            </div>
-            <div class="form-group">
-                <label>Karşı Tarafın İsim Soyisimi</label>
-                <input type="text" id="karsiIsim" class="input-field" placeholder="Örn: Mehmet Demir">
-            </div>
-            <div class="form-group">
-                <label>Tutar (TL)</label>
-                <input type="number" id="beyanMiktar" class="input-field" placeholder="Örn: 25000">
-            </div>
-            <div class="flex-group">
-                <button class="btn btn-primary" style="background:#dc2626;" onclick="beyanGonder('borcluyum')">Borçluyum</button>
-                <button class="btn btn-primary" style="background:#16a34a;" onclick="beyanGonder('alacakliyim')">Alacaklıyım</button>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card p-4 shadow">
+                <h5 class="card-title mb-4 text-warning">Analiz Ayarları</h5>
+                <div class="mb-3">
+                    <label class="form-label">Kripto Çifti (Binance)</label>
+                    <input type="text" id="symbol" class="form-control bg-dark text-white border-secondary" value="BTCUSDT" placeholder="Örn: BTCUSDT, ETHUSDT">
+                </div>
+                <div class="mb-4">
+                    <label class="form-label">Zaman Dilimi</label>
+                    <select id="interval" class="form-select bg-dark text-white border-secondary">
+                        <option value="15m">15 Dakika (Kısa Vade)</option>
+                        <option value="4h" selected>4 Saat (Orta Vade)</option>
+                    </select>
+                </div>
+                <button onclick="startAnalysis()" class="btn btn-warning w-100 fw-bold">Formasyonları Tara & Tahmin Et</button>
             </div>
         </div>
 
-        <!-- KESİNLEŞEN HAVUZ VE ALGORİTMA -->
-        <div class="card" style="background:#f0fdf4; border-color:#bbf7d0;">
-            <div class="card-title" style="color:#166534;">📦 Karşılıklı Onaylanan Borç Havuzu</div>
-            <div id="onayliListe" style="font-size: 12px; max-height: 100px; overflow-y:auto; margin-bottom: 10px;">Henüz onaylı borç yok.</div>
-            <button class="btn btn-success" style="background:#15803d;" onclick="algoritmayiTetikle()">🚀 Merkez Algoritmayı Çalıştır</button>
-        </div>
+        <div class="col-md-8">
+            <div class="card p-4 mb-4 border-warning shadow">
+                <h5 class="text-warning mb-2">🔮 1-2 Günlük Fiyat Hareketi Projeksiyonu</h5>
+                <p id="projection-text" class="fs-5 text-light">Lütfen analiz başlatın...</p>
+            </div>
 
-        <!-- RAPOR ÇIKTISI -->
-        <div id="simuRapor" class="card" style="display:none; background:#fafafa;">
-            <div class="card-title">📊 Konsolide Optimizasyon Sonucu</div>
-            <div id="raporIcerik" style="font-size: 13px; white-space: pre-line;"></div>
+            <div class="card p-4 shadow">
+                <h5 class="mb-3">Bulunan Son Formasyonlar (Maks 10)</h5>
+                <div class="table-responsive">
+                    <table class="table table-dark table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th>Zaman</th>
+                                <th>Formasyon</th>
+                                <th>Tip</th>
+                                <th>Tetik Fiyatı</th>
+                                <th>Durum (Status)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pattern-table-body">
+                            <tr>
+                                <td colspan="5" class="text-center text-muted">Veri yok. Analiz butonuna tıklayın.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
-    let KULLANICI = null;
+function startAnalysis() {
+    const symbol = document.getElementById('symbol').value;
+    const interval = document.getElementById('interval').value;
+    const tbody = document.getElementById('pattern-table-body');
+    const projText = document.getElementById('projection-text');
 
-    function smsKodYolla() {
-        const isim = document.getElementById('loginIsim').value;
-        const tc = document.getElementById('loginTC').value;
-        const tel = document.getElementById('loginTel').value;
-        if(!isim || !tc || !tel) { alert("Tüm alanları doldurun!"); return; }
+    tbody.innerHTML = `<tr><td colspan="5" class="text-center text-warning">Analiz ediliyor, lütfen bekleyin...</td></tr>`;
+    projText.innerHTML = "Veriler hesaplanıyor...";
 
-        fetch('/api/auth/sms-gonder', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({tc, tel})
-        }).then(() => {
-            document.getElementById('authSection').classList.remove('active');
-            document.getElementById('smsSection').classList.add('active');
+    fetch('/api/scan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ symbol: symbol, interval: interval })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if(!data.success) {
+            tbody.innerHTML = `<tr><td colspan="5" class="text-center text-danger">${data.message}</td></tr>`;
+            return;
+        }
+
+        projText.innerText = data.projection;
+        tbody.innerHTML = "";
+
+        if(data.patterns.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted">Bu zaman diliminde onay bekleyen formasyon bulunamadı.</td></tr>`;
+            return;
+        }
+
+        data.patterns.forEach(p => {
+            let typeBadge = p.type === 'Bullish' ? `<span class="badge badge-bullish">Boğa</span>` : `<span class="badge badge-bearish">Ayı</span>`;
+            let statusClass = 'text-muted';
+            if(p.status === 'Confirmed') statusClass = 'status-confirmed';
+            if(p.status === 'Confirmed & Fail') statusClass = 'status-fail';
+            if(p.status === 'Not Confirmed') statusClass = 'status-not';
+
+            tbody.innerHTML += `
+                <tr>
+                    <td>${p.time}</td>
+                    <td>${p.pattern}</td>
+                    <td>${typeBadge}</td>
+                    <td>${p.trigger_price}</td>
+                    <td class="${statusClass}">${p.status}</td>
+                </tr>
+            `;
         });
-    }
-
-    function dogrulaVeGirisYap() {
-        const isim = document.getElementById('loginIsim').value;
-        const tc = document.getElementById('loginTC').value;
-        const tel = document.getElementById('loginTel').value;
-        const kod = document.getElementById('smsKod').value;
-
-        fetch('/api/auth/login', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({tc, tel, isim, kod})
-        })
-        .then(res => res.json())
-        .then(data => {
-            if(data.success) {
-                KULLANICI = data.kullanici;
-                document.getElementById('smsSection').classList.remove('active');
-                document.getElementById('mainApp').classList.add('active');
-                document.getElementById('userBadge').innerText = `${KULLANICI.isim} (TC: ${KULLANICI.tc})`;
-                // Gerçek zamanlı dinleme döngüsünü başlat (Her 2 saniyede bir verileri kontrol et)
-                setInterval(verileriGuncelle, 2000);
-            } else {
-                alert(data.hata);
-            }
-        });
-    }
-
-    function beyanGonder(tip) {
-        const karsi_tc = document.getElementById('karsiTC').value;
-        const karsi_isim = document.getElementById('karsiIsim').value;
-        const miktar = document.getElementById('beyanMiktar').value;
-        if(!karsi_tc || !karsi_isim || !miktar) { alert("Lütfen form alanlarını doldurunuz."); return; }
-
-        fetch('/api/beyan/gonder', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({gonderen_tc: KULLANICI.tc, karsi_tc, karsi_isim, miktar, tip})
-        })
-        .then(res => res.json())
-        .then(data => {
-            alert(data.mesaj);
-            document.getElementById('karsiTC').value = "";
-            document.getElementById('karsiIsim').value = "";
-            document.getElementById('beyanMiktar').value = "";
-        });
-    }
-
-    function verileriGuncelle() {
-        if(!KULLANICI) return;
-        fetch(`/api/beyan/listele/${KULLANICI.tc}`)
-        .then(res => res.json())
-        .then(data => {
-            // 1. Bildirimleri Bas
-            const bAlani = document.getElementById('bildirimAlani');
-            bAlani.innerHTML = "";
-            data.gelen_beyanlar.forEach(b => {
-                // Eğer kullanıcı borçlu olan tarafsa onay istiyoruz
-                if (b.borclu_tc === KULLANICI.tc) {
-                    bAlani.innerHTML += `
-                        <div class="notification-badge">
-                            ⚠️ <b>${b.alacakli_isim}</b> sizden <b>${b.miktar} TL</b> alacaklı olduğunu beyan etti. Onaylıyor musunuz?
-                            <button class="btn btn-success" style="padding:4px 8px; font-size:11px; margin-top:6px;" onclick="beyanOnayla(${b.id})">Evet, Onaylıyorum</button>
-                        </div>
-                    `;
-                } else {
-                    bAlani.innerHTML += `
-                        <div class="notification-badge" style="background:#e0f2fe; border-color:#0284c7; color:#0369a1;">
-                            ⏳ <b>${b.borclu_isim}</b> isimli kişiye yaptığınız <b>${b.miktar} TL</b> değerindeki borç beyanınız için karşı tarafın onayı bekleniyor...
-                        </div>
-                    `;
-                }
-            });
-
-            // 2. Onaylanan Havuzu Güncelle
-            const oListe = document.getElementById('onayliListe');
-            if(data.onaylanan_havuz.length > 0) {
-                oListe.innerHTML = data.onaylanan_havuz.map(b => `• <b>${b.borclu}</b> ➔ <b>${b.alacakli}</b>: ${b.miktar} TL (Onaylandı)<br>`).join('');
-            }
-        });
-    }
-
-    function beyanOnayla(id) {
-        fetch('/api/beyan/onayla', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({id})
-        }).then(() => verileriGuncelle());
-    }
-
-    function algoritmayiTetikle() {
-        fetch('/api/algoritma/calistir')
-        .then(res => res.json())
-        .then(data => {
-            if(data.hata) { alert(data.hata); return; }
-            const panel = document.getElementById('simuRapor');
-            const icerik = document.getElementById('raporIcerik');
-            panel.style.display = "block";
-            
-            let txt = `<b>🔄 Tespit Edilen Kilitli Döngüler:</b>\n`;
-            txt += data.donguler.length ? data.donguler.map(d => "• " + d).join('\n') : "Hiç döngü bulunamadı.\n";
-            
-            txt += `\n<b>🎯 Nihai Net Ödeme Planı:</b>\n`;
-            txt += data.net_odemeler.length ? data.net_odemeler.map(n => `• ${n.gonderen}, ${n.alan}'a net <b>${n.miktar} TL</b> ödeyecek.`).join('\n') : "Herkes dengelendi, kimsenin kimseye ödeme yapmasına gerek kalmadı!\n";
-            
-            icerik.innerHTML = txt;
-        });
-    }
+    })
+    .catch(err => {
+        tbody.innerHTML = `<tr><td colspan="5" class="text-center text-danger">Bağlantı hatası gerçekleşti.</td></tr>`;
+    });
+}
 </script>
 </body>
 </html>
